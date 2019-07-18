@@ -1,3 +1,7 @@
+<?php
+  require_once 'backend/includes/_db.php';
+  global $db;
+?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -53,7 +57,7 @@
               <div class="list-inline-item"><a href="#" class="search-open nav-link"><i class="icon-magnifying-glass-browser"></i></a></div>
               <!-- Log out               -->
               <div class="list-inline-item logout">
-                <a id="logout" href="login.php" class="nav-link"> <span class="d-none d-sm-inline">Cerrar Sesión </span><i class="icon-logout"></i></a></div>
+                <a id="logout"  class="nav-link"> <span class="d-none d-sm-inline">Cerrar Sesión </span><i class="icon-logout"></i></a></div>
             </div>
           </div>
         </nav>
@@ -77,7 +81,7 @@
             <li><a href="responsivas.php"> <i class="icon-paper-and-pencil"></i>Responsivas </a></li>
             <li class="active"><a href="admins.php"> <i class="icon-user-1"></i>Administradores </a></li>
             <li><a href="deptos.php"> <i class="icon-presentation"></i>Departamentos </a></li>
-            <li><a href="login.php"> <i class="icon-logout"></i>Cerrar Sesión </a></li>
+            <li><a id="logout"> <i class="icon-logout"></i>Cerrar Sesión </a></li>
         </nav>
         <!-- Sidebar Navigation end-->
         <div class="page-content">
@@ -99,25 +103,34 @@
               <div class="row">
                 <div class="col-lg-12">
                   <div class="block">
-                    <div class="title"><strong>Administradores</strong></div>
+                    <div class="title">
+                      <strong>Administradores &nbsp; &nbsp;</strong>
+                      <button id="nuevo" type="button" class="btn btn-primary">Nuevo</button>
+                    </div>
                     <div class="table-responsive">
                       <table class="table table-striped table-hover">
                         <thead>
                           <tr>
                             <th>#</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Username</th>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Fecha de Alta</th>
                           </tr>
                         </thead>
                         <tbody>
+                          <?php
+                            $admins = $db->select("administradores",["administradores.adm_id", "administradores.adm_nom", "administradores.adm_email","administradores.adm_fa"]);
+                              foreach($admins as $key => $adm){
+                          ?>
                           <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
+                            <th scope="row"><?php echo $adm["adm_id"];?></th>
+                            <td><?php echo $adm["adm_nom"];?></td>
+                            <td><?php echo $adm["adm_email"];?></td>
+                            <td><?php echo $adm["adm_fa"];?></td>
                           </tr>
-                          <tr>
+                          <?php
+                          }
+                          /*<tr>
                             <th scope="row">2</th>
                             <td>Jacob</td>
                             <td>Thornton</td>
@@ -128,7 +141,8 @@
                             <td>Larry</td>
                             <td>the Bird</td>
                             <td>@twitter       </td>
-                          </tr>
+                          </tr>*/
+                           ?>
                         </tbody>
                       </table>
                     </div>
@@ -155,5 +169,37 @@
       <script src="vendor/chart.js/Chart.min.js"></script>
       <script src="vendor/jquery-validation/jquery.validate.min.js"></script>
       <script src="js/front.js"></script>
+      <script src="js/main.js"></script>
     </body>
 </html>
+<!-- Modal-->
+<div id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
+  <div role="document" class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header"><strong id="exampleModalLabel" class="modal-title">Agregar administrador</strong>
+        <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+      </div>
+      <div class="modal-body">
+        <p></p>
+        <form id="formulario">
+          <div class="form-group">
+            <label>Nombre</label>
+            <input type="text" id="nom" placeholder="Nombre" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" placeholder="Email" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" placeholder="Password" class="form-control">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" data-dismiss="modal" class="btn btn-secondary">Cancelar</button>
+        <button type="button" id="guardarAdm" class="btn btn-primary">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>

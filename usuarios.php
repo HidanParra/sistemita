@@ -1,3 +1,7 @@
+<?php
+  require_once 'backend/includes/_db.php';
+  global $db;
+?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -98,35 +102,35 @@
             <div class="row">
               <div class="col-lg-12">
                 <div class="block">
-                  <div class="title"><strong>Usuarios</strong></div>
+                  <div class="title">
+                    <strong>Usuarios &nbsp; &nbsp;</strong>
+                    <button id="nuevo" type="button" class="btn btn-primary">Nuevo</button>
+                  </div>
                   <div class="table-responsive">
                     <table class="table table-striped table-hover">
                       <thead>
                         <tr>
                           <th>#</th>
-                          <th>First Name</th>
-                          <th>Last Name</th>
-                          <th>Username</th>
+                          <th>Nombre</th>
+                          <th>Departmento</th>
+                          <th>Puesto</th>
+                          <th>Fecha de Alta</th>
                         </tr>
                       </thead>
                       <tbody>
+                        <?php
+                          $usuarios = $db->select("persona",["persona.per_id", "persona.per_nom", "persona.per_dpto", "persona.per_pto", "persona.per_fa"]);
+                            foreach($usuarios as $key => $usr){
+                        ?>
                         <tr>
-                          <th scope="row">1</th>
-                          <td>Mark</td>
-                          <td>Otto</td>
-                          <td>@mdo</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">2</th>
-                          <td>Jacob</td>
-                          <td>Thornton</td>
-                          <td>@fat</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">3</th>
-                          <td>Larry</td>
-                          <td>the Bird</td>
-                          <td>@twitter       </td>
+                          <th scope="row"><?php echo $usr["per_id"];?></th>
+                          <td><?php echo $usr["per_nom"];?></td>
+                          <td><?php echo $usr["per_dpto"];?></td>
+                          <td><?php echo $usr["per_pto"];?></td>
+                          <td><?php echo $usr["per_fa"];?></td>
+                        <?php
+                            }
+                         ?>
                         </tr>
                       </tbody>
                     </table>
@@ -154,5 +158,37 @@
     <script src="vendor/chart.js/Chart.min.js"></script>
     <script src="vendor/jquery-validation/jquery.validate.min.js"></script>
     <script src="js/front.js"></script>
+    <script src="js/main.js"></script>
   </body>
 </html>
+<!-- Modal-->
+<div id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
+  <div role="document" class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header"><strong id="exampleModalLabel" class="modal-title">Agregar colaborador</strong>
+        <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+      </div>
+      <div class="modal-body">
+        <p></p>
+        <form id="formulario">
+          <div class="form-group">
+            <label>Nombre</label>
+            <input type="text" id="nom" placeholder="Nombre" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Departamento</label>
+            <input type="text" id="nom" placeholder="Departamento" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Puesto</label>
+            <input type="text" id="nom" placeholder="Puesto" class="form-control">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" data-dismiss="modal" class="btn btn-secondary">Cancelar</button>
+        <button type="button" id="guardarPer" class="btn btn-primary">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>

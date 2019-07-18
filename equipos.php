@@ -1,3 +1,7 @@
+<?php
+  require_once 'backend/includes/_db.php';
+  global $db;
+?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -98,7 +102,10 @@
             <div class="row">
               <div class="col-lg-12">
                 <div class="block">
-                  <div class="title"><strong>Equipos</strong></div>
+                  <div class="title">
+                    <strong>Equipos &nbsp; &nbsp;</strong>
+                    <button id="nuevo" type="button" class="btn btn-primary">Nuevo</button>
+                  </div>
                   <div class="table-responsive">
                     <table class="table table-striped table-hover">
                       <thead>
@@ -110,24 +117,19 @@
                         </tr>
                       </thead>
                       <tbody>
+                        <?php
+                        $equipos = $db->select("equipos",["equipos.epo_id", "equipos.epo_nom", "equipos.epo_sn", "equipos.epo_fa"]);
+                          foreach($equipos as $key => $epo){
+                          ?>
                         <tr>
-                          <th scope="row">1</th>
-                          <td>Mark</td>
-                          <td>Otto</td>
-                          <td>@mdo</td>
+                          <th scope="row"><?php echo $epo["epo_id"];?></th>
+                          <td><?php echo $epo["epo_nom"];?></td>
+                          <td><?php echo $epo["epo_sn"];?></td>
+                          <td><?php echo $epo["epo_fa"];?></td>
                         </tr>
-                        <tr>
-                          <th scope="row">2</th>
-                          <td>Jacob</td>
-                          <td>Thornton</td>
-                          <td>@fat</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">3</th>
-                          <td>Larry</td>
-                          <td>the Bird</td>
-                          <td>@twitter       </td>
-                        </tr>
+                        <?php
+                          }
+                         ?>
                       </tbody>
                     </table>
                   </div>
@@ -154,5 +156,33 @@
     <script src="vendor/chart.js/Chart.min.js"></script>
     <script src="vendor/jquery-validation/jquery.validate.min.js"></script>
     <script src="js/front.js"></script>
+    <script src="js/main.js"></script>
   </body>
   </html>
+  <!-- Modal-->
+  <div id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
+    <div role="document" class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header"><strong id="exampleModalLabel" class="modal-title">Agregar equipo</strong>
+          <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+        </div>
+        <div class="modal-body">
+          <p></p>
+          <form id="formulario">
+            <div class="form-group">
+              <label>Nombre del Equipo</label>
+              <input type="text" id="nom" placeholder="Nombre" class="form-control">
+            </div>
+            <div class="form-group">
+              <label>Numero de Serie</label>
+              <input type="text" id="nom" placeholder="Serie" class="form-control">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" data-dismiss="modal" class="btn btn-secondary">Cancelar</button>
+          <button type="button" id="guardarEpo" class="btn btn-primary">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
