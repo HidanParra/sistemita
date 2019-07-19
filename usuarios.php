@@ -112,20 +112,28 @@
                         <tr>
                           <th>#</th>
                           <th>Nombre</th>
-                          <th>Departmento</th>
+                          <th>Departamento</th>
                           <th>Puesto</th>
                           <th>Fecha de Alta</th>
                         </tr>
                       </thead>
                       <tbody>
                         <?php
-                          $usuarios = $db->select("persona",["persona.per_id", "persona.per_nom", "persona.per_dpto", "persona.per_pto", "persona.per_fa"]);
+                                          //SELECT tabla1  INNER JOIN tabla2    EN LOS ID'S coincidentes
+                          $usuarios = $db->select("persona",["[><]departamentos" => ["per_dpto" => "dpto_id"]],
+                                                             ["persona.per_id",
+                                                              "persona.per_nom",
+                                                              "persona.per_dpto",
+                                                              "persona.per_pto",
+                                                              "persona.per_fa",
+                                                              "departamentos.dpto_nom"]);
+
                             foreach($usuarios as $key => $usr){
                         ?>
                         <tr>
                           <th scope="row"><?php echo $usr["per_id"];?></th>
                           <td><?php echo $usr["per_nom"];?></td>
-                          <td><?php echo $usr["per_dpto"];?></td>
+                          <td><?php echo $usr["dpto_nom"];?></td>
                           <td><?php echo $usr["per_pto"];?></td>
                           <td><?php echo $usr["per_fa"];?></td>
                         <?php

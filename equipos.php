@@ -111,9 +111,9 @@
                       <thead>
                         <tr>
                           <th>#</th>
-                          <th>First Name</th>
-                          <th>Last Name</th>
-                          <th>Username</th>
+                          <th>Equipo</th>
+                          <th>Numero de Serie</th>
+                          <th>Fecha de Alta</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -175,7 +175,7 @@
             </div>
             <div class="form-group">
               <label>Numero de Serie</label>
-              <input type="text" id="nom" placeholder="Serie" class="form-control">
+              <input type="text" id="snu" placeholder="Serie" class="form-control">
             </div>
           </form>
         </div>

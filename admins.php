@@ -188,11 +188,11 @@
           </div>
           <div class="form-group">
             <label>Email</label>
-            <input type="email" placeholder="Email" class="form-control">
+            <input type="email"  id="email" placeholder="Email" class="form-control">
           </div>
           <div class="form-group">
             <label>Password</label>
-            <input type="password" placeholder="Password" class="form-control">
+            <input type="password" id="pass" placeholder="Password" class="form-control">
           </div>
         </form>
       </div>
