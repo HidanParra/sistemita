@@ -1,3 +1,7 @@
+<?php
+  require_once 'backend/includes/_db.php';
+  global $db;
+?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -90,7 +94,7 @@
           <!-- Breadcrumb-->
           <div class="container-fluid">
             <ul class="breadcrumb">
-              <li class="breadcrumb-item"><a href="index.html">Inicio</a></li>
+              <li class="breadcrumb-item"><a href="index.php">Inicio</a></li>
               <li class="breadcrumb-item active">Responsivas        </li>
             </ul>
           </div>

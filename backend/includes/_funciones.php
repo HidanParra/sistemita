@@ -16,8 +16,14 @@
       case "insertar_equipo":
         insertar_equipo();
       break;
+      case "editar_depto":
+        editar_depto();
+      break;
+      case "consultar_depto":
+        consultar_depto();
+      break;
   }
-
+}
 
   function cerrar_sesion(){
     echo 1;
@@ -70,8 +76,28 @@
     }
   }
 
+//FUNCIONES PARA CONSULTA
 
+  function consultar_depto(){
+    global $db;
+    extract($_POST);
 
+    $consultar = $db -> get("departamentos","*",["AND" => ["dpto_id"=>$registro]]);
+    echo json_encode($consultar);
+
+  }
+
+//FUNCIONES DE EDICION
+
+  function editar_depto(){
+    global $db;
+    extract($_POST);
+
+      $editar=$db ->update("departamentos",["dpto_nom" => $nom,
+                                            "dpto_sn" => $snu],
+                                           ["dpto_id"=>$registro]);
+
+  }
 
 
 ?>

@@ -38,6 +38,7 @@ $("#guardarDep").click(function(){
     alert("No dejes campos vacios");
     return;
   }else{
+    alert("alaverga wey");
     $.ajax({
       url: "backend/includes/_funciones.php",
       type: "post",
@@ -108,6 +109,9 @@ $("#guardarAdm").click(function(){
   }
 
 });
+
+//BOTON DE EDICION
+
 
 
 //FIN DOCUMENT READY

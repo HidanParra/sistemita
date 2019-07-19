@@ -114,6 +114,8 @@
                             <th>#</th>
                             <th>Nombre</th>
                             <th>Fecha de Alta</th>
+                            <th>Editar</th>
+                            <th>Eliminar</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -125,8 +127,16 @@
                             <th scope="row"><?php echo $dep["dpto_id"];?></th>
                             <td><?php echo $dep["dpto_nom"];?></td>
                             <td><?php echo $dep["dpto_fa"];?></td>
-
-
+                            <td>
+                              <a href="#" class="editar_depto" data-id="<?php echo $dep["dpto_id"];?>">
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                              </a>
+                            </td>
+                            <td>
+                              <a href="#" class="eliminar_depto" data-id="<?php echo $dep["dpto_id"];?>">
+                              <i class="fa fa-trash-o" aria-hidden="true"></i>
+                              </a>
+                            </td>
                           </tr>
                         <?php
                             }
