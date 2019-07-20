@@ -22,6 +22,9 @@
       case "consultar_depto":
         consultar_depto();
       break;
+      case "eliminar_depto":
+        eliminar_depto();
+      break;
   }
 }
 
@@ -82,7 +85,7 @@
     global $db;
     extract($_POST);
 
-    $consultar = $db -> get("departamentos","*",["AND" => ["dpto_id"=>$registro]]);
+    $consultar = $db -> get("departamentos","*",["AND" => ["dpto_id"=>$id]]);
     echo json_encode($consultar);
 
   }
@@ -93,11 +96,22 @@
     global $db;
     extract($_POST);
 
-      $editar=$db ->update("departamentos",["dpto_nom" => $nom,
-                                            "dpto_sn" => $snu],
-                                           ["dpto_id"=>$registro]);
+
+      $editar=$db ->update("departamentos",["dpto_nom" => $nom,],
+                                           ["dpto_id"=>$id]);
 
   }
 
+// FUNCION PARA BORRAR
 
+function eliminar_depto(){
+      global $db;
+      extract($_POST);
+      $eliminar = $db->delete("departamentos",["dpto_id" => $id]);
+      if($eliminar){
+          echo "Registro eliminado";
+      }else{
+          echo "registro eliminado";
+      }
+  }
 ?>

@@ -34,18 +34,23 @@ $("#guardarDep").click(function(){
     nom: nom
   }
 
+  if($(this).data("edicion")==1){
+  obj["accion"]="editar_depto";
+     obj["id"]=$(this).data("id");
+   $(this).removeData("edicion").removeData("id");
+  }
+
   if(nom==""){
     alert("No dejes campos vacios");
     return;
   }else{
-    alert("alaverga wey");
     $.ajax({
       url: "backend/includes/_funciones.php",
       type: "post",
       datatype: "json",
       data: obj,
       success: function(data){
-        if(data==1){alert("djfhad");}
+        if(data==1){}
       }
     })
     location.reload();
@@ -110,9 +115,40 @@ $("#guardarAdm").click(function(){
 
 });
 
-//BOTON DE EDICION
+//BOTON DE EDICION depto
+$(document).on("click", ".editar_depto", function(){
+  id=$(this).data("id");
+  obj={
+    "accion" : "consultar_depto",
+    "id" : $(this).data("id")
+  }
+  $.post("backend/includes/_funciones.php", obj, function(data){
+    $("#nom").val(data.dpto_nom);
+  }, "JSON");
+  $("#guardarDep").text("Actualizar").data("edicion", 1).data("id", id);
+  $(".modal-title").text("Editar Departamento");
+  $("#modal").modal("show");
+
+});
 
 
+$(document).on("click", ".eliminar_depto", function(){
+  id=$(this).data("id");
+  let obj = {
+        "accion" : "eliminar_depto",
+        "id" : id
+    }
 
+  $.ajax({
+      url: "backend/includes/_funciones.php",
+      type: "POST",
+      dataType: "json",
+      data: obj,
+      success: function(data){
+          if(data==1){alert("logrado");}else{alert("no logrado");}
+      }
+  })
+  location.reload();
+});
 //FIN DOCUMENT READY
 });
