@@ -97,10 +97,12 @@ $("#guardarEpo").click(function(){
   //alert("puto 23");
   nom=$("#nom").val();
   snu=$("#snu").val();
+  lista=$("#lista").val();
   obj={
     accion: "insertar_equipo",
     nom: nom,
-    snu: snu
+    snu: snu,
+    lista: lista
   }
 
   if($(this).data("edicion")==1){
@@ -109,7 +111,7 @@ $("#guardarEpo").click(function(){
    $(this).removeData("edicion").removeData("id");
   }
 
-  if(nom == "" || snu==""){
+  if(nom == "" || snu=="" || lista==0){
     alert("No dejes campos vacios");
     return;
   }else{
@@ -223,6 +225,79 @@ $(document).on("click", ".eliminar_admin", function(){
   id=$(this).data("id");
   let obj = {
         "accion" : "eliminar_admin",
+        "id" : id
+    }
+
+  $.ajax({
+      url: "backend/includes/_funciones.php",
+      type: "POST",
+      dataType: "json",
+      data: obj,
+      success: function(data){
+          if(data==1){alert("logrado");}else{alert("no logrado");}
+      }
+  })
+  location.reload();
+});
+
+
+//USUARIOS
+$("#guardarUsr").click(function(){
+  //alert("puto 45");
+  nom=$("#nom").val();
+  lista=$("#lista").val();
+  pto=$("#pto").val();
+  obj={
+    accion: "insertar_user",
+    nom: nom,
+    lista: lista,
+    pto:pto
+  }
+
+  if($(this).data("edicion")==1){
+  obj["accion"]="editar_user";
+     obj["id"]=$(this).data("id");
+   $(this).removeData("edicion").removeData("id");
+  }
+
+  if(nom=="" || lista==0 || pto==""){
+    alert("No dejes campos vacios");
+    return;
+  }else{
+    $.ajax({
+      url: "backend/includes/_funciones.php",
+      type: "post",
+      datatype: "json",
+      data: obj,
+      success: function(data){
+        if(data==1){alert("djfhad");}
+      }
+    })
+    location.reload();
+  }
+});
+
+$(document).on("click", ".editar_user", function(){
+  id=$(this).data("id");
+  obj={
+    "accion" : "consultar_user",
+    "id" : $(this).data("id")
+  }
+  $.post("backend/includes/_funciones.php", obj, function(data){
+    $("#nom").val(data.per_nom);
+    $("#pto").val(data.per_pto);
+  }, "JSON");
+
+  $("#guardarUsr").text("Actualizar").data("edicion", 1).data("id", id);
+  $(".modal-title").text("Editar Colaborador");
+  $("#modal").modal("show");
+
+});
+
+$(document).on("click", ".eliminar_user", function(){
+  id=$(this).data("id");
+  let obj = {
+        "accion" : "eliminar_user",
         "id" : id
     }
 

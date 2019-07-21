@@ -109,29 +109,56 @@
                         <thead>
                           <tr>
                             <th>#</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Username</th>
+                            <th>Asignada a</th>
+                            <th>Departamento</th>
+                            <th>Equipo</th>
+                            <th>Asigno</th>
+                            <th>Fecha de Alta</th>
+                            <th>Firmas</th>
+                            <th>Editar</th>
+                            <th>Eliminar</th>
                           </tr>
                         </thead>
                         <tbody>
+                          <?php
+                                            //SELECT tabla1  INNER JOIN tabla2    EN LOS ID'S coincidentes
+                            $responsivas = $db->select("responsivas",["[><]persona" => ["res_per" => "per_id"],
+                                                                      "[><]departamentos" => ["res_dpto" => "dpto_id"],
+                                                                      "[><]equipos" => ["res_epo" => "epo_id"],
+                                                                      "[><]administradores" => ["res_adm" => "adm_id"],
+                                                                      "[><]avance" => ["res_av" => "av_id"]
+                                                                      ],
+                                                               ["responsivas.res_id",
+                                                                "persona.per_nom",
+                                                                "departamentos.dpto_nom",
+                                                                "equipos.epo_nom",
+                                                                "administradores.adm_nom",
+                                                                "responsivas.res_fa",
+                                                                "avance.av_nom"]);
+
+                              foreach($responsivas as $key => $res){
+                          ?>
                           <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                          </tr>
-                          <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                          </tr>
-                          <tr>
-                            <th scope="row">3</th>
-                            <td>Larry</td>
-                            <td>the Bird</td>
-                            <td>@twitter       </td>
+                            <th scope="row"><?php echo $res["res_id"];?></th>
+                            <td><?php echo $res["per_nom"];?></td>
+                            <td><?php echo $res["dpto_nom"];?></td>
+                            <td><?php echo $res["epo_nom"];?></td>
+                            <td><?php echo $res["adm_nom"];?></td>
+                            <td><?php echo $res["res_fa"];?></td>
+                            <td><?php echo $res["av_nom"];?></td>
+                            <td>
+                              <a href="#" class="editar_resp" data-id="<?php echo $res["res_id"];?>">
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                              </a>
+                            </td>
+                            <td>
+                              <a href="#" class="eliminar_resp" data-id="<?php echo $res["res_id"];?>">
+                              <i class="fa fa-trash-o" aria-hidden="true"></i>
+                              </a>
+                            </td>
+                            <?php
+                                }
+                             ?>
                           </tr>
                         </tbody>
                       </table>

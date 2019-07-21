@@ -113,6 +113,7 @@
                           <th>#</th>
                           <th>Equipo</th>
                           <th>Numero de Serie</th>
+                          <th>Tipo</th>
                           <th>Fecha de Alta</th>
                           <th>Editar</th>
                           <th>Eliminar</th>
@@ -120,13 +121,19 @@
                       </thead>
                       <tbody>
                         <?php
-                        $equipos = $db->select("equipos",["equipos.epo_id", "equipos.epo_nom", "equipos.epo_sn", "equipos.epo_fa"]);
+                        $equipos = $db->select("equipos",["[><]tipos" => ["epo_tip" => "tip_id"]],
+                                                         ["equipos.epo_id",
+                                                         "equipos.epo_nom",
+                                                         "equipos.epo_sn",
+                                                         "equipos.epo_fa",
+                                                         "tipos.tip_nom"]);
                           foreach($equipos as $key => $epo){
                           ?>
                         <tr>
                           <th scope="row"><?php echo $epo["epo_id"];?></th>
                           <td><?php echo $epo["epo_nom"];?></td>
                           <td><?php echo $epo["epo_sn"];?></td>
+                          <td><?php echo $epo["tip_nom"];?></td>
                           <td><?php echo $epo["epo_fa"];?></td>
                           <td>
                             <a href="#" class="editar_equipo" data-id="<?php echo $epo["epo_id"];?>">
@@ -188,6 +195,20 @@
             <div class="form-group">
               <label>Numero de Serie</label>
               <input type="text" id="snu" placeholder="Serie" class="form-control">
+            </div>
+            <div class="form-group">
+              <label>Tipo de Equipo</label>
+              <select id="lista" class="form-control">
+                <option value="0">Seleccionar Tipo</option>
+                    <?php
+                            $tipos = $db->select("tipos","*");
+                            foreach ($tipos as $key => $tip) {
+                        ?>
+                                <option value="<?php echo $tip["tip_id"]?>"><?php echo $tip["tip_nom"]?></option>
+                        <?php
+                            }
+                        ?>
+              </select>
             </div>
           </form>
         </div>

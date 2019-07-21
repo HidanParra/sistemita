@@ -46,6 +46,19 @@
       case "consultar_equipo":
         consultar_equipo();
       break;
+      //USUARIOS
+      case "insertar_user":
+        insertar_user();
+      break;
+      case "consultar_user":
+        consultar_user();
+      break;
+      case "eliminar_user":
+        eliminar_user();
+      break;
+      case "editar_user":
+        editar_user();
+      break;
   }
 }
 
@@ -154,6 +167,7 @@
 
       $insertar=$db ->insert("equipos",["epo_nom" => $nom,
                                         "epo_sn" => $snu,
+                                        "epo_tip" =>$lista,
                                         "epo_fa" => date("Y").date("m").date("d")]);
 
     if($insertar){
@@ -178,7 +192,8 @@
 
 
       $editar=$db ->update("equipos",["epo_nom" => $nom,
-                                      "epo_sn" => $snu,],
+                                      "epo_sn" => $snu,
+                                      "epo_tip" => $lista,],
                                       ["epo_id"=>$id]);
 
   }
@@ -194,5 +209,53 @@
         }
     }
 
+//FUNCIONES DE USUARIOS
+function insertar_user(){
+  global $db;
+  extract($_POST);
+
+    $insertar=$db ->insert("persona",["per_nom" => $nom,
+                                      "per_dpto" =>$lista,
+                                      "per_pto" => $pto,
+                                      "per_fa" => date("Y").date("m").date("d")]);
+
+  if($insertar){
+    echo 1;
+  }else{
+    echo 2;
+  }
+}
+
+function consultar_user(){
+  global $db;
+  extract($_POST);
+
+  $consultar = $db -> get("persona","*",["AND" => ["per_id"=>$id]]);
+  echo json_encode($consultar);
+
+}
+
+function editar_user(){
+  global $db;
+  extract($_POST);
+
+
+    $editar=$db ->update("persona",["per_nom" => $nom,
+                                    "per_dpto" => $lista,
+                                    "per_pto" => $pto,],
+                                    ["per_id"=>$id]);
+
+}
+
+function eliminar_user(){
+      global $db;
+      extract($_POST);
+      $eliminar = $db->delete("persona",["per_id" => $id]);
+      if($eliminar){
+          echo "Registro eliminado";
+      }else{
+          echo "registro eliminado";
+      }
+  }
 
 ?>

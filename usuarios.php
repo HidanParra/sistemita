@@ -115,6 +115,8 @@
                           <th>Departamento</th>
                           <th>Puesto</th>
                           <th>Fecha de Alta</th>
+                          <th>Editar</th>
+                          <th>Eliminar</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -136,6 +138,16 @@
                           <td><?php echo $usr["dpto_nom"];?></td>
                           <td><?php echo $usr["per_pto"];?></td>
                           <td><?php echo $usr["per_fa"];?></td>
+                          <td>
+                            <a href="#" class="editar_user" data-id="<?php echo $usr["per_id"];?>">
+                              <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            </a>
+                          </td>
+                          <td>
+                            <a href="#" class="eliminar_user" data-id="<?php echo $usr["per_id"];?>">
+                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                            </a>
+                          </td>
                         <?php
                             }
                          ?>
@@ -185,17 +197,27 @@
           </div>
           <div class="form-group">
             <label>Departamento</label>
-            <input type="text" id="nom" placeholder="Departamento" class="form-control">
+            <select id="lista" class="form-control">
+              <option value="0">Seleccionar Departamento</option>
+                  <?php
+                          $deptos = $db->select("departamentos","*");
+                          foreach ($deptos as $key => $dep) {
+                      ?>
+                              <option value="<?php echo $dep["dpto_id"]?>"><?php echo $dep["dpto_nom"]?></option>
+                      <?php
+                          }
+                      ?>
+            </select>
           </div>
           <div class="form-group">
             <label>Puesto</label>
-            <input type="text" id="nom" placeholder="Puesto" class="form-control">
+            <input type="text" id="pto" placeholder="Puesto" class="form-control">
           </div>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" data-dismiss="modal" class="btn btn-secondary">Cancelar</button>
-        <button type="button" id="guardarPer" class="btn btn-primary">Guardar</button>
+        <button type="button" id="guardarUsr" class="btn btn-primary">Guardar</button>
       </div>
     </div>
   </div>
