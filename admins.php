@@ -115,6 +115,8 @@
                             <th>Nombre</th>
                             <th>Email</th>
                             <th>Fecha de Alta</th>
+                            <th>Editar</th>
+                            <th>Eliminar</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -127,6 +129,16 @@
                             <td><?php echo $adm["adm_nom"];?></td>
                             <td><?php echo $adm["adm_email"];?></td>
                             <td><?php echo $adm["adm_fa"];?></td>
+                            <td>
+                              <a href="#" class="editar_admin" data-id="<?php echo $adm["adm_id"];?>">
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                              </a>
+                            </td>
+                            <td>
+                              <a href="#" class="eliminar_admin" data-id="<?php echo $adm["adm_id"];?>">
+                              <i class="fa fa-trash-o" aria-hidden="true"></i>
+                              </a>
+                            </td>
                           </tr>
                           <?php
                           }

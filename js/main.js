@@ -25,7 +25,7 @@ $("#nuevo").click(function(){
   $("#formulario").trigger("reset");
 });
 
-//BOTON INSERTAR O GUARDAR
+//DEPARTAMENTOS
 $("#guardarDep").click(function(){
   //alert("puto");
   nom=$("#nom").val();
@@ -57,6 +57,42 @@ $("#guardarDep").click(function(){
   }
 });
 
+//BOTON DE EDICION depto
+$(document).on("click", ".editar_depto", function(){
+  id=$(this).data("id");
+  obj={
+    "accion" : "consultar_depto",
+    "id" : $(this).data("id")
+  }
+  $.post("backend/includes/_funciones.php", obj, function(data){
+    $("#nom").val(data.dpto_nom);
+  }, "JSON");
+  $("#guardarDep").text("Actualizar").data("edicion", 1).data("id", id);
+  $(".modal-title").text("Editar Departamento");
+  $("#modal").modal("show");
+
+});
+
+$(document).on("click", ".eliminar_depto", function(){
+  id=$(this).data("id");
+  let obj = {
+        "accion" : "eliminar_depto",
+        "id" : id
+    }
+
+  $.ajax({
+      url: "backend/includes/_funciones.php",
+      type: "POST",
+      dataType: "json",
+      data: obj,
+      success: function(data){
+          if(data==1){alert("logrado");}else{alert("no logrado");}
+      }
+  })
+  location.reload();
+});
+
+//EQUIPO
 $("#guardarEpo").click(function(){
   //alert("puto 23");
   nom=$("#nom").val();
@@ -65,6 +101,12 @@ $("#guardarEpo").click(function(){
     accion: "insertar_equipo",
     nom: nom,
     snu: snu
+  }
+
+  if($(this).data("edicion")==1){
+  obj["accion"]="editar_equipo";
+     obj["id"]=$(this).data("id");
+   $(this).removeData("edicion").removeData("id");
   }
 
   if(nom == "" || snu==""){
@@ -85,6 +127,45 @@ $("#guardarEpo").click(function(){
   location.reload();
 });
 
+$(document).on("click", ".editar_equipo", function(){
+  id=$(this).data("id");
+  obj={
+    "accion" : "consultar_equipo",
+    "id" : $(this).data("id")
+  }
+  $.post("backend/includes/_funciones.php", obj, function(data){
+    $("#nom").val(data.epo_nom);
+    $("#snu").val(data.epo_sn);
+  }, "JSON");
+
+  $("#guardarEpo").text("Actualizar").data("edicion", 1).data("id", id);
+  $(".modal-title").text("Editar Equipo");
+  $("#modal").modal("show");
+
+});
+
+$(document).on("click", ".eliminar_equipo", function(){
+  id=$(this).data("id");
+  let obj = {
+        "accion" : "eliminar_equipo",
+        "id" : id
+    }
+
+  $.ajax({
+      url: "backend/includes/_funciones.php",
+      type: "POST",
+      dataType: "json",
+      data: obj,
+      success: function(data){
+          if(data==1){alert("logrado");}else{alert("no logrado");}
+      }
+  })
+  location.reload();
+});
+
+
+
+//ADMINISTRADORES
 $("#guardarAdm").click(function(){
   //alert("puto 45");
   nom=$("#nom").val();
@@ -95,6 +176,12 @@ $("#guardarAdm").click(function(){
     nom: nom,
     email: email,
     pass:pass
+  }
+
+  if($(this).data("edicion")==1){
+  obj["accion"]="editar_admin";
+     obj["id"]=$(this).data("id");
+   $(this).removeData("edicion").removeData("id");
   }
 
   if(nom=="" || email=="" || pass==""){
@@ -112,30 +199,30 @@ $("#guardarAdm").click(function(){
     })
     location.reload();
   }
-
 });
 
-//BOTON DE EDICION depto
-$(document).on("click", ".editar_depto", function(){
+$(document).on("click", ".editar_admin", function(){
   id=$(this).data("id");
   obj={
-    "accion" : "consultar_depto",
+    "accion" : "consultar_admin",
     "id" : $(this).data("id")
   }
   $.post("backend/includes/_funciones.php", obj, function(data){
-    $("#nom").val(data.dpto_nom);
+    $("#nom").val(data.adm_nom);
+    $("#email").val(data.adm_email);
+    $("#pass").val(data.adm_pass);
   }, "JSON");
-  $("#guardarDep").text("Actualizar").data("edicion", 1).data("id", id);
-  $(".modal-title").text("Editar Departamento");
+
+  $("#guardarAdm").text("Actualizar").data("edicion", 1).data("id", id);
+  $(".modal-title").text("Editar Administrador");
   $("#modal").modal("show");
 
 });
 
-
-$(document).on("click", ".eliminar_depto", function(){
+$(document).on("click", ".eliminar_admin", function(){
   id=$(this).data("id");
   let obj = {
-        "accion" : "eliminar_depto",
+        "accion" : "eliminar_admin",
         "id" : id
     }
 
@@ -150,5 +237,6 @@ $(document).on("click", ".eliminar_depto", function(){
   })
   location.reload();
 });
+
 //FIN DOCUMENT READY
 });

@@ -114,6 +114,8 @@
                           <th>Equipo</th>
                           <th>Numero de Serie</th>
                           <th>Fecha de Alta</th>
+                          <th>Editar</th>
+                          <th>Eliminar</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -126,6 +128,16 @@
                           <td><?php echo $epo["epo_nom"];?></td>
                           <td><?php echo $epo["epo_sn"];?></td>
                           <td><?php echo $epo["epo_fa"];?></td>
+                          <td>
+                            <a href="#" class="editar_equipo" data-id="<?php echo $epo["epo_id"];?>">
+                              <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            </a>
+                          </td>
+                          <td>
+                            <a href="#" class="eliminar_equipo" data-id="<?php echo $epo["epo_id"];?>">
+                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                            </a>
+                          </td>
                         </tr>
                         <?php
                           }
